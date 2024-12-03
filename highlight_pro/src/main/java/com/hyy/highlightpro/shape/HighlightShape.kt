@@ -8,7 +8,7 @@ import android.graphics.*
  */
 open class HighlightShape(val blurRadius: Float = 0.0f) {
 
-    private lateinit var paint: Paint
+    private var paint: Paint
 
     //clip path
     internal val path by lazy {

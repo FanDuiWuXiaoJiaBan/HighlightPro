@@ -27,6 +27,7 @@ internal class MaskContainer constructor(context: Context, attributeSet: Attribu
     private var bgColor: Int = -1
     private val highLightViewParameters = mutableListOf<HighlightParameter>()
     private var clickListener: OnClickListener? = null
+    private var dismissClickListener: OnClickListener? = null
     private val defaultHighlightBgColor: Int
         get() = "#80000000".toColorInt()
 
@@ -109,7 +110,7 @@ internal class MaskContainer constructor(context: Context, attributeSet: Attribu
 
     private fun addTipsView() {
         fun initClickViews(parameter: HighlightParameter, tipView: View) {
-            if (parameter.clickIds.isEmpty()) {
+            if (parameter.clickIds.isEmpty() && parameter.dismissClickIds.isEmpty()) {
                 this.setOnClickListener(clickListener)
                 return
             }
@@ -118,6 +119,9 @@ internal class MaskContainer constructor(context: Context, attributeSet: Attribu
             parameter.clickIds.forEach { clickId ->
                 tipView.findViewById<View>(clickId)
                     .setOnClickListener(clickListener)
+            }
+            parameter.dismissClickIds.forEach { clickId->
+                tipView.findViewById<View>(clickId).setOnClickListener(dismissClickListener)
             }
         }
         if (needAnchorTipView) {
@@ -235,6 +239,10 @@ internal class MaskContainer constructor(context: Context, attributeSet: Attribu
 
     fun setOnClickCallback(listener: OnClickListener) {
         clickListener = listener
+    }
+
+    fun setOnDismissClickCallback(listener: OnClickListener){
+        dismissClickListener = listener
     }
 
 }

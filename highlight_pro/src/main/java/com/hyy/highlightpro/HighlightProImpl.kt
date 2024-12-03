@@ -36,7 +36,7 @@ internal class HighlightProImpl : HighlightViewInteractiveAction {
     private var showCallback: ((index: Int) -> Unit)? = null
     private var dismissCallback: (() -> Unit)? = null
     private var clickCallback: ((View) -> Unit)? = null
-     var autoNext = true
+    private var autoNext = true
     private var needAnchorTipView = true
 
     //    private var
@@ -47,32 +47,16 @@ internal class HighlightProImpl : HighlightViewInteractiveAction {
         }
     }
 
-    internal constructor(activity: Activity) {
-        rootView = activity.window.decorView as ViewGroup
-        maskContainer = MaskContainer(activity)
-    }
-
-    internal constructor(view: ViewGroup) {
-        rootView = view
-        maskContainer = MaskContainer(view.context)
-    }
-
-    internal constructor(fragment: Fragment) {
-        if (fragment.view == null)
-            throw IllegalStateException("The fragment's view not created yet,please call this after fragment's onViewCreated()")
-        if (fragment.isDetached)
-            throw IllegalStateException("The fragment have detached. It is not attach to an activity!")
-        rootView = fragment.requireActivity().window.decorView as ViewGroup
-        fragmentRootView = fragment.view
-        isFragmentRoot = true
-        maskContainer = MaskContainer(rootView.context)
-
+    private val onDismissClickListener = View.OnClickListener {
+        clickCallback?.invoke(it)
+        dismiss()
     }
 
     override fun show() {
         if (released) return
         println("$TAG show")
         maskContainer.setOnClickCallback(onClickListener)
+        maskContainer.setOnDismissClickCallback(onDismissClickListener)
         //if constructor's param is activity or view wo care about rootView's attachedToWindow
         //if constructor's param is fragment we care about [fragmentRootView]'s width is not 0
         if ((isFragmentRoot.not() && rootView.isAttachToWindow()) ||
@@ -118,9 +102,7 @@ internal class HighlightProImpl : HighlightViewInteractiveAction {
                     show()
                 }
             }
-
         }
-
     }
 
     /**

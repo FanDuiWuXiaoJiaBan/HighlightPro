@@ -37,6 +37,8 @@ class HighlightParameter {
 
     internal var clickIds = intArrayOf()
 
+    internal var dismissClickIds = intArrayOf()
+
     internal val constraints =
         mutableListOf(Constraints.TopToBottomOfHighlight, Constraints.StartToStartOfHighlight)
 
@@ -158,6 +160,10 @@ class HighlightParameter {
 
         fun setTipViewClickIds(@IdRes vararg ids: Int) = this.apply {
             highlightParameter.clickIds = ids
+        }
+
+        fun setTipViewDismissClickIds(@IdRes vararg ids: Int) = this.apply {
+            highlightParameter.dismissClickIds = ids
         }
 
         fun build(): HighlightParameter = highlightParameter
