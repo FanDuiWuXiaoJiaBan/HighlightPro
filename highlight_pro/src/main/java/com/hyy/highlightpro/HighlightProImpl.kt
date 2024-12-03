@@ -36,7 +36,7 @@ internal class HighlightProImpl : HighlightViewInteractiveAction {
     private var showCallback: ((index: Int) -> Unit)? = null
     private var dismissCallback: (() -> Unit)? = null
     private var clickCallback: ((View) -> Unit)? = null
-    private var autoNext = true
+     var autoNext = true
     private var needAnchorTipView = true
 
     //    private var
@@ -126,7 +126,7 @@ internal class HighlightProImpl : HighlightViewInteractiveAction {
     /**
      * this is the function which real show highLightView rect and tipView
      */
-    private fun showNextHighLightView() {
+     fun showNextHighLightView() {
         if (released) return
 
         println("$TAG showNextHighLightView")

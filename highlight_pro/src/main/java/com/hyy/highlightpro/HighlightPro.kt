@@ -38,6 +38,13 @@ class HighlightPro : HighlightViewInteractiveAction {
         highlightProImpl.show()
     }
 
+    fun showNext() {
+        highlightProImpl.showNextHighLightView()
+    }
+    fun setAutoNext(autoNext: Boolean): HighlightPro {
+        highlightProImpl.autoNext = autoNext
+        return this
+    }
     /**
      * Dismiss [HighlightPro] auto in common.
      * we can manually call this method([dismiss]) to dismiss [HighlightPro]
@@ -67,7 +74,7 @@ class HighlightPro : HighlightViewInteractiveAction {
      *
      * With [setHighlightParameter] we can use kotlin function with return
      */
-    fun setHighlightParameter(block: ()-> HighlightParameter): HighlightPro {
+    fun setHighlightParameter(block: () -> HighlightParameter): HighlightPro {
         highlightProImpl.setGuideViewParameter(block = block)
         return this
     }
@@ -75,7 +82,7 @@ class HighlightPro : HighlightViewInteractiveAction {
     /**
      * [showCallback] is a function which will be invoked when the [HighlightPro] show
      */
-    fun setOnShowCallback(showCallback: (Int) -> Unit) : HighlightPro{
+    fun setOnShowCallback(showCallback: (Int) -> Unit): HighlightPro {
         highlightProImpl.setOnShowCallback(showCallback = showCallback)
         return this
     }
@@ -83,7 +90,7 @@ class HighlightPro : HighlightViewInteractiveAction {
     /**
      * [dismissCallback] is a function which will be invoked when the [HighlightPro] dismiss
      */
-    fun setOnDismissCallback(dismissCallback: () -> Unit) : HighlightPro{
+    fun setOnDismissCallback(dismissCallback: () -> Unit): HighlightPro {
         highlightProImpl.setOnDismissCallback(dismissCallback)
         return this
     }
@@ -112,7 +119,7 @@ class HighlightPro : HighlightViewInteractiveAction {
         return this
     }
 
-    fun needAnchorTipView(needAnchorTipView: Boolean) : HighlightPro{
+    fun needAnchorTipView(needAnchorTipView: Boolean): HighlightPro {
         highlightProImpl.needAnchorTipView(needAnchorTipView)
         return this
     }

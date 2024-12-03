@@ -47,12 +47,12 @@ class HighlightMoreFragment : Fragment() {
     }
 
     private fun showHighlightSteps() {
-        HighlightPro.with(this)
+        var interceptBackPressed = HighlightPro.with(this)
             .setHighlightParameter {
                 HighlightParameter.Builder()
                     .setHighlightViewId(R.id.btn_step_first)
                     .setTipsViewId(R.layout.guide_step_first)
-                    .setTipViewClickIds(R.id.tv_next)
+                    .setTipViewClickIds(R.id.tv_next, R.id.btn_close)
                     .setHighlightShape(RectShape(4f.dp, 4f.dp, 6f))
                     .setHighlightHorizontalPadding(8f.dp)
                     .setConstraints(Constraints.StartToEndOfHighlight + Constraints.TopToTopOfHighlight)
@@ -92,11 +92,20 @@ class HighlightMoreFragment : Fragment() {
             }
             .setOnDismissCallback {
                 //do something
-            }
-            .setOnMaskViewClickCallback {
+            }.setAutoNext(false)
+        interceptBackPressed    .setOnMaskViewClickCallback {
+                if (it.id == R.id.tv_next) {
+                    Log.e("TAG", "下一步")
+                    interceptBackPressed.showNext()
+
+                } else {
+                    interceptBackPressed.dismiss()
+                    Log.e("TAG", "其他")
+                }
+
             }
             .interceptBackPressed(true)
-            .show()
+        interceptBackPressed.show()
     }
 
     companion object {
