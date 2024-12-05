@@ -1,5 +1,5 @@
 # HighlightPro
-## 原来的库点击阴影部分也跳转到下一步，现在修改成点击对应的view
+## 原来的库点击阴影部分也跳转到下一步，现在修改成点击对应的view ，没有上传maven,使用aar
 [![Release](https://jitpack.io/v/jitpack/android-example.svg)](https://jitpack.io/#hyy920109/HighLightPro)
 
 **HighlightPro** 是Android的一个高亮引导库，同时它还可以是一个简单的popup window库
