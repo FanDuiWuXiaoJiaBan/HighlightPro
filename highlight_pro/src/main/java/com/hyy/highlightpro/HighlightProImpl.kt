@@ -36,7 +36,7 @@ internal class HighlightProImpl : HighlightViewInteractiveAction {
     private var showCallback: ((index: Int) -> Unit)? = null
     private var dismissCallback: (() -> Unit)? = null
     private var clickCallback: ((View) -> Unit)? = null
-    private var autoNext = true
+     var autoNext = true
     private var needAnchorTipView = true
 
     //    private var
@@ -47,6 +47,10 @@ internal class HighlightProImpl : HighlightViewInteractiveAction {
         }
     }
 
+    private val onDismissClickListener = View.OnClickListener {
+        clickCallback?.invoke(it)
+        dismiss()
+    }
     internal constructor(activity: Activity) {
         rootView = activity.window.decorView as ViewGroup
         maskContainer = MaskContainer(activity)
@@ -68,16 +72,12 @@ internal class HighlightProImpl : HighlightViewInteractiveAction {
         maskContainer = MaskContainer(rootView.context)
 
     }
-
     override fun show() {
         if (released) return
         println("$TAG show")
-        //todo give user access to intercept click event
-//        if (!intercept) {
-        maskContainer.setOnClickListener(onClickListener)
-//        }
-
-        //if constructor's param is activity or view we care about rootView's attachedToWindow
+        maskContainer.setOnClickCallback(onClickListener)
+        maskContainer.setOnDismissClickCallback(onDismissClickListener)
+        //if constructor's param is activity or view wo care about rootView's attachedToWindow
         //if constructor's param is fragment we care about [fragmentRootView]'s width is not 0
         if ((isFragmentRoot.not() && rootView.isAttachToWindow()) ||
             (isFragmentRoot && fragmentRootView?.width != 0)
@@ -122,15 +122,13 @@ internal class HighlightProImpl : HighlightViewInteractiveAction {
                     show()
                 }
             }
-
         }
-
     }
 
     /**
      * this is the function which real show highLightView rect and tipView
      */
-    private fun showNextHighLightView() {
+     fun showNextHighLightView() {
         if (released) return
 
         println("$TAG showNextHighLightView")
@@ -143,8 +141,8 @@ internal class HighlightProImpl : HighlightViewInteractiveAction {
             }
             showCallback?.invoke(curIndex)
             curIndex++
-            maskContainer.setRootWidth(rootView.width-rootView.paddingLeft-rootView.paddingRight)//ignore padding
-            maskContainer.setRootHeight(rootView.height-rootView.paddingTop-rootView.paddingBottom)//ignore padding
+            maskContainer.setRootWidth(rootView.width - rootView.paddingLeft - rootView.paddingRight)//ignore padding
+            maskContainer.setRootHeight(rootView.height - rootView.paddingTop - rootView.paddingBottom)//ignore padding
             maskContainer.setHighLightParameters(highlightParameters[0])
             highlightParameters.removeAt(0)
         }
@@ -171,7 +169,8 @@ internal class HighlightProImpl : HighlightViewInteractiveAction {
         parameter.calculateHighLightViewRect(rootView)
     }
 
-    private fun checkTipViewIdIsValid(parameter: HighlightParameter): Boolean = parameter.tipsViewId != -1
+    private fun checkTipViewIdIsValid(parameter: HighlightParameter): Boolean =
+        parameter.tipsViewId != -1
 
 
     private fun hasHighLightView(): Boolean = highlightParameters.isNotEmpty()

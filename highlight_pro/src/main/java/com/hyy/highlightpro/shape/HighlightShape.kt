@@ -1,6 +1,7 @@
 package com.hyy.highlightpro.shape
 
 import android.graphics.*
+import com.hyy.highlightpro.util.dp
 
 
 /**
@@ -8,7 +9,7 @@ import android.graphics.*
  */
 open class HighlightShape(val blurRadius: Float = 0.0f) {
 
-    private lateinit var paint: Paint
+    private var paint: Paint
 
     //clip path
     internal val path by lazy {
@@ -18,12 +19,14 @@ open class HighlightShape(val blurRadius: Float = 0.0f) {
     init {
         paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             isDither = true
-            color = Color.WHITE
+            color = Color.YELLOW
         }
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth= 5f.dp
         //paint blur style
-        if (blurRadius > 0) {
-            paint.maskFilter = BlurMaskFilter(blurRadius, BlurMaskFilter.Blur.SOLID)
-        }
+//        if (blurRadius > 0) {
+//            paint.maskFilter = BlurMaskFilter(blurRadius, BlurMaskFilter.Blur.SOLID)
+//        }
     }
 
     protected var rect: RectF? = null
