@@ -36,7 +36,7 @@ internal class HighlightProImpl : HighlightViewInteractiveAction {
     private var showCallback: ((index: Int) -> Unit)? = null
     private var dismissCallback: (() -> Unit)? = null
     private var clickCallback: ((View) -> Unit)? = null
-    private var autoNext = true
+     var autoNext = true
     private var needAnchorTipView = true
 
     //    private var
@@ -51,7 +51,27 @@ internal class HighlightProImpl : HighlightViewInteractiveAction {
         clickCallback?.invoke(it)
         dismiss()
     }
+    internal constructor(activity: Activity) {
+        rootView = activity.window.decorView as ViewGroup
+        maskContainer = MaskContainer(activity)
+    }
 
+    internal constructor(view: ViewGroup) {
+        rootView = view
+        maskContainer = MaskContainer(view.context)
+    }
+
+    internal constructor(fragment: Fragment) {
+        if (fragment.view == null)
+            throw IllegalStateException("The fragment's view not created yet,please call this after fragment's onViewCreated()")
+        if (fragment.isDetached)
+            throw IllegalStateException("The fragment have detached. It is not attach to an activity!")
+        rootView = fragment.requireActivity().window.decorView as ViewGroup
+        fragmentRootView = fragment.view
+        isFragmentRoot = true
+        maskContainer = MaskContainer(rootView.context)
+
+    }
     override fun show() {
         if (released) return
         println("$TAG show")

@@ -92,6 +92,7 @@ class HighlightMoreFragment : Fragment() {
             }
             .setOnDismissCallback {
                 //do something
+                Log.e("TAG", "dismiss")
             }.setAutoNext(false)
         interceptBackPressed    .setOnMaskViewClickCallback {
                 if (it.id == R.id.tv_next) {
